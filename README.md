@@ -19,12 +19,17 @@ How it works
 3. Follows paginated responses by reading the next field until all pages are read.
 4. Selects HTTPS clone URL for each repository.
 5. Runs:
-   git clone --bare <repo-url> <destination>
+   `git clone --bare <repo-url> <destination>`
+
+Create an API token
+-------------------
+
+https://support.atlassian.com/bitbucket-cloud/docs/create-an-api-token/
 
 Repository destination layout
 -----------------------------
 By default repositories are created in this structure:
-  <DESTINATION_ROOT>/<workspace>/<repo>.git
+  `<DESTINATION_ROOT>/<workspace>/<repo>.git`
 
 Prerequisites
 -------------
