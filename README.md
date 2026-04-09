@@ -68,16 +68,16 @@ From the project folder:
 
 Behavior flags
 --------------
-- DRY_RUN = True
+- `DRY_RUN = True`  
   Discovers repositories and prints planned actions without cloning.
 
-- OVERWRITE_EXISTING = False
+- `OVERWRITE_EXISTING = False`  
   If destination already exists, repository is skipped.
 
-- OVERWRITE_EXISTING = True
+- `OVERWRITE_EXISTING = True`  
   Existing destination is removed and cloned again.
 
-- REPORT_JSON_PATH = Path("./report.json")
+- `REPORT_JSON_PATH = Path("./report.json")`  
   Writes a JSON summary report file.
 
 Output summary
