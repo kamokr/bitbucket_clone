@@ -17,6 +17,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable, List, NoReturn, Optional
+from urllib.parse import quote
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -171,25 +172,14 @@ def list_workspace_repositories(session: requests.Session, workspace: str) -> It
 		first_page = False
 
 
-def select_https_clone_url(repo: dict[str, Any]) -> Optional[str]:
-	links = repo.get("links")
-	if not isinstance(links, dict):
-		return None
-
-	clone_entries = links.get("clone")
-	if not isinstance(clone_entries, list):
-		return None
-
-	for entry in clone_entries:
-		if not isinstance(entry, dict):
-			continue
-		if entry.get("name") != "https":
-			continue
-		href = entry.get("href")
-		if isinstance(href, str) and href:
-			return href
-
-	return None
+def build_authenticated_clone_url(workspace: str, repository: str) -> str:
+	encoded_token = quote(BITBUCKET_API_TOKEN, safe="")
+	encoded_workspace = quote(workspace, safe="")
+	encoded_repository = quote(repository, safe="")
+	return (
+		f"https://x-bitbucket-api-token-auth:{encoded_token}"
+		f"@bitbucket.org/{encoded_workspace}/{encoded_repository}.git"
+	)
 
 
 def make_clone_jobs(session: requests.Session, workspaces: List[str], destination_root: Path) -> List[CloneJob]:
@@ -208,10 +198,7 @@ def make_clone_jobs(session: requests.Session, workspaces: List[str], destinatio
 				print(f"  - Skipping repository with missing slug in workspace '{workspace}'.")
 				continue
 
-			clone_url = select_https_clone_url(repo)
-			if not clone_url:
-				print(f"  - Skipping {full_name}: no HTTPS clone URL found.")
-				continue
+			clone_url = build_authenticated_clone_url(workspace, slug)
 
 			destination = destination_root / workspace / f"{slug}.git"
 			jobs.append(
