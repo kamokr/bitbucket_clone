@@ -29,7 +29,8 @@ https://support.atlassian.com/bitbucket-cloud/docs/create-an-api-token/
 Repository destination layout
 -----------------------------
 By default repositories are created in this structure:
-  `<DESTINATION_ROOT>/<workspace>/<repo>.git`
+
+`<DESTINATION_ROOT>/<workspace>/<repo>.git`
 
 Prerequisites
 -------------
@@ -38,7 +39,8 @@ Prerequisites
 - Python package: requests
 
 Install dependency in this workspace virtual environment:
-  .venv/bin/python -m pip install requests
+
+`.venv/bin/python -m pip install requests`
 
 Configuration
 -------------
@@ -61,7 +63,8 @@ Important notes:
 Run
 ---
 From the project folder:
-  .venv/bin/python clone.py
+
+`.venv/bin/python clone.py`
 
 Behavior flags
 --------------
